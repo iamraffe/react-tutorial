@@ -19,6 +19,7 @@ end
 
 gem 'ancestry'
 gem 'rails_admin'
+gem 'foundation-rails'
 
 group :production do
   gem 'pg'

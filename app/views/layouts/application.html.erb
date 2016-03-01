@@ -1,14 +1,44 @@
 <!DOCTYPE html>
-<html>
-<head>
-  <title>ReactTutorial</title>
-  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
-  <%= csrf_meta_tags %>
-</head>
-<body>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<%= yield %>
+    <title><%= content_for?(:title) ? yield(:title) : "Untitled" %></title>
 
-</body>
+    <%= stylesheet_link_tag    "application" %>
+    <%= javascript_include_tag "application", 'data-turbolinks-track' => true %>
+    <%= csrf_meta_tags %>
+  </head>
+
+  <body>
+    <nav class="top-bar foundation-bar" data-topbar>
+      <div class="title-bar" data-responsive-toggle="main-menu" data-hide-for="medium">
+        <button class="menu-icon" type="button" data-toggle></button>
+        <div class="title-bar-title">Menu</div>
+      </div>
+
+      <div id="main-menu">
+        <div class="top-bar-left">
+          <ul class="dropdown menu" data-dropdown-menu>
+            <li class="name">
+              <a href="/">React Tutorial</a>
+            </li>
+          </ul>
+        </div>
+        <section class="top-bar-right">
+          <ul class="menu" data-responsive-menu="drilldown medium-dropdown">
+            <li>
+              <%= link_to "Manage Restaurants", '/admin' %>
+            </li>
+          </ul>
+        </section>
+      </div>      
+    </nav>
+    <div class="row">
+      <div class="large-12 columns">
+        <%= yield %>
+      </div>
+    </div>
+  </body>
 </html>
