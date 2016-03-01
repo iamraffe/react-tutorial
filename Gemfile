@@ -20,9 +20,9 @@ end
 gem 'ancestry'
 gem 'rails_admin'
 gem 'foundation-rails'
-gem "react-rails"
+gem 'react-rails'
 gem 'flux-rails-assets'
-gem "lodash-rails"
+gem 'lodash-rails'
 
 group :production do
   gem 'pg'
