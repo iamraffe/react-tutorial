@@ -20,6 +20,7 @@ end
 gem 'ancestry'
 gem 'rails_admin'
 gem 'foundation-rails'
+gem "react-rails"
 
 group :production do
   gem 'pg'

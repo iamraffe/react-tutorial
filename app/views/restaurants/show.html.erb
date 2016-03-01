@@ -11,7 +11,7 @@
         <h1>Comments</h1>
       </header>
       <section>
-        <p><%= @restaurant.comments %></p>
+        <%= react_component("Comment", {author: "JL", body: "Great restaurant!", rank: 5}) %>        
       </section>
     </section>
   </section>
