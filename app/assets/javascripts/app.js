@@ -42,3 +42,14 @@ AppDispatcher.register(function(payload) {
   }
 });
 
+
+
+// Actions
+var Actions = new _.extend({}, {
+  addComment: function(params){
+    AppDispatcher.dispatch({
+      actionType: Constants.ADD_COMMENT,
+      comment: params
+    });
+  }
+});
