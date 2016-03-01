@@ -1,0 +1,1 @@
+Restaurant.create! name: "Los Pollos Hermanos"
