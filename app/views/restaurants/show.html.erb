@@ -1,19 +1,17 @@
-<section id="restaurant show">
+<article id="restaurant show">
   <header class="row">
     <h1><%= @restaurant.name %></h1>
   </header>
   <section class="row">
-    <section class="columns medium-6">
+    <div class="columns medium-6">
       <p><%= @restaurant.description %></p>
-    </section>
+    </div>
     <section class="columns medium-6">
       <header>
         <h1>Comments</h1>
       </header>
-      <section>
-        <%= react_component("Comment", {author: "JL", body: "Great restaurant!", rank: 5}) %>        
-      </section>
+      <%= react_component("CommentList", {comments: raw( render(template: 'comments/index.json.jbuilder') )}) %>        
     </section>
   </section>
-</section>
+</article>
   
