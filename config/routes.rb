@@ -4,7 +4,9 @@ Rails.application.routes.draw do
 
   root to: "restaurants#index"
   resources :restaurants do
-    resources :comments
+    resources :comments do
+      put 'upvote', to: 'comments#upvote'
+    end
   end
 
 end

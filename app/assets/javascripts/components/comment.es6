@@ -6,6 +6,11 @@ class Comment extends React.Component {
     super()
     this.state = { isReplying: false }
   }
+  static get contextTypes(){
+    return{
+      actions: React.PropTypes.func.isRequired
+    }
+  }
 
   static get propTypes() {
     return{
@@ -24,17 +29,22 @@ class Comment extends React.Component {
     this.setState({isReplying: false})
   }
 
+  onUpvote(){
+    this.context.actions.upvoteComment(this.props)
+  }
+
   render(){
     const replyText = this.state.isReplying ? "Hide" : "Reply"
     return  <li className="comment row collapse">
               <blockquote>
+                <span className="label warning float-right hollow">{this.props.rank}</span>
                 {this.props.body}
                 <cite> 
                   by: {this.props.author}
                 </cite>
               </blockquote>
-              <p> Rank: {this.props.rank}</p>
               <button className="button tiny hollow" onClick={this.onToggleReply.bind(this)}>{replyText}</button>
+              <button className="button success tiny hollow" onClick={this.onUpvote.bind(this)}>+1</button>
               <CommentForm 
                 parent_id={this.props.id}
                 isReplying={this.state.isReplying}

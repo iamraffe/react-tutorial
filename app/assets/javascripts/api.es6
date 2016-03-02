@@ -20,6 +20,15 @@ class Api{
       headers: this.headers()
     }, { body: JSON.stringify(params) }))
   }
+
+  static put(route, params){
+    return fetch(`${route}.json`, {
+      method: 'put',
+      credentials: 'include',
+      headers: this.headers()
+      }
+    )
+  }
 }
 
 export default Api
