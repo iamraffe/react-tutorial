@@ -5,4 +5,9 @@ config.output = {
   path: '../app/assets/javascripts/generated'
 };
 
+config.module.loaders.push(
+  {test: /\.jsx$/, exclude: /node_modules/, loader: 'babel-loader', query: {presets: ['es2015']}},
+  {test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader', query: {presets: ['es2015']}}
+);
+
 module.exports = config;

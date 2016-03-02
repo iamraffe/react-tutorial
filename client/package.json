@@ -1,0 +1,33 @@
+{
+  "name": "react-tutorial",
+  "version": "",
+  "description": "",
+  "main": "server.js",
+  "engines": {
+    "node": "0.10.25"
+  },
+  "author": "raffe",
+  "license": "",
+  "dependencies": {
+    "babel": "*",
+    "babel-core": "*",
+    "babel-loader": "*",
+    "babel-runtime": "*",
+    "body-parser": "*",
+    "es5-shim": "*",
+    "imports-loader": "*",
+    "loader-utils": "*",
+    "lodash": "*",
+    "react": "*",
+    "flux": "*",
+    "axios": "*",
+    "express": "*",
+    "webpack": "*"
+  },
+  "devDependencies": {
+
+  },
+  "scripts": {
+
+  }
+}
