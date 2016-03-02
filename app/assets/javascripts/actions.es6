@@ -8,6 +8,13 @@ class Actions {
       comment: params
     });
   }
+
+  static setComments(params){
+    AppDispatcher.dispatch({
+      actionType: Constants.SET_COMMENTS,
+      comment: params
+    });
+  }
 }
 
 export default Actions;

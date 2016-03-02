@@ -10,7 +10,7 @@
       <header>
         <h1>Comments</h1>
       </header>
-      <%= react_component("CommentSection") %>
+      <%= react_component("CommentSection", comments: raw( render(template: "comments/index.json.jbuilder") ) ) %>
     </section>
   </section>
 </article>
