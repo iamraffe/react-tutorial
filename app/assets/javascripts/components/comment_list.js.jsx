@@ -1,5 +1,3 @@
-
-
 var CommentList = React.createClass({
   componentDidMount: function(){
     commentStore.addChangeListener(this._onChange);

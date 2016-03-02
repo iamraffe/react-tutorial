@@ -25,3 +25,5 @@
 //= require_tree .
 
 $(function(){ $(document).foundation(); });
+System.import('./app');
+
