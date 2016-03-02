@@ -3,7 +3,7 @@ class CreateComments < ActiveRecord::Migration
     create_table :comments do |t|
       t.string :author
       t.text :body
-      t.integer :rank
+      t.integer :rank, default: 0
       t.belongs_to :restaurant
       t.timestamps null: false
     end
