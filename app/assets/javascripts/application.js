@@ -20,10 +20,9 @@
 //= require react_ujs
 //= require flux
 //= require eventemitter
-//= require app
 //= require components
 //= require_tree .
 
 $(function(){ $(document).foundation(); });
-System.import('./app');
+System.import('./components/comment_section');
 
