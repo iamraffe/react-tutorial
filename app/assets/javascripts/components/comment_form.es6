@@ -1,8 +1,14 @@
 class CommentForm extends React.Component{
   constructor(){
     super()
-    this.defaultState = {id: 1, body: '', author: ''}
+    this.defaultState = { body: '', author: ''}
     this.state = this.defaultState
+  }
+
+  static get contextTypes(){
+    return{
+      actions: React.PropTypes.func.isRequired
+    }
   }
 
   onFieldChange(event){
@@ -13,7 +19,8 @@ class CommentForm extends React.Component{
 
   submitComment(event){
     event.preventDefault()
-    Actions.addComment(this.state)
+    this.context.actions.addComment(this.state)
+    this.setState(this.defaultState)
   }
 
   render(){

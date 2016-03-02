@@ -19,8 +19,8 @@ class CommentList extends React.Component{
     console.log("rendering..");
     return(
       <div>
-        {this.context.store.comments().map((comment) => {
-         return <Comment key={comment.id} {... comment}/>;
+        {this.context.store.comments().map((comment, i) => {
+         return <Comment key={i} {... comment}/>;
         })}
       </div>
     );
