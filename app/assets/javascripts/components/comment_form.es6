@@ -26,11 +26,11 @@ class CommentForm extends React.Component{
   render(){
     return  <form>
               <label>Author</label>
-              <input type="text" name="author"  onChange={this.onFieldChange.bind(this)} value={this.state.author} />
+              <input type="text" name="author" onChange={this.onFieldChange.bind(this)} value={this.state.author} />
               <label>Comment</label>
               <textarea name="body"  onChange={this.onFieldChange.bind(this)} value={this.state.body} />
               <button onClick={this.submitComment.bind(this)} type="submit">Submit</button>
-            </form>
+            </form>;
   }
 
 }

@@ -4,7 +4,7 @@ import Api from './api';
 
 class Actions {
   static addComment(params){
-    Api.post('/restaurants/2/comments',{
+    Api.post('/restaurants/1/comments',{
       comment: params
     }).then( response => {
       return response.json()

@@ -12,15 +12,15 @@ class Comment extends React.Component {
   }
 
   render(){
-    return (
-      <li>
-        <p>{this.props.body}</p>
-        <p class="right"> By: {this.props.author}</p>
-        <p> Rank: {this.props.rank}</p>
-        <CommentForm parent_id={this.props.id} />
-        <CommentList parent_id={this.props.id} />
-      </li>
-    );
+    return  <li>
+              <p>{this.props.body}</p>
+              <p className="right"> By: {this.props.author}</p>
+              <p> Rank: {this.props.rank}</p>
+              <CommentForm parent_id={this.props.id} />
+              <ul>
+                <CommentList parent_id={this.props.id} />
+              </ul>
+            </li>;
   }
 }
 
