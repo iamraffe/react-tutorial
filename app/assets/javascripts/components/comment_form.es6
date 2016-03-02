@@ -19,7 +19,7 @@ class CommentForm extends React.Component{
 
   submitComment(event){
     event.preventDefault()
-    this.context.actions.addComment(this.state)
+    this.context.actions.addComment(_.merge(this.state, { parent_id: this.props.parent_id }))
     this.setState(this.defaultState)
   }
 
