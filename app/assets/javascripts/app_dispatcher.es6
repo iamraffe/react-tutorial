@@ -1,3 +1,3 @@
 let AppDispatcher = new Flux.Dispatcher();
 
-export default AppDispatcher
+export default AppDispatcher;
