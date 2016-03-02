@@ -3,11 +3,14 @@ import Constants from './constants';
 import Api from './api';
 
 class Actions {
-  static addComment(params){
-    Api.post('/restaurants/1/comments',{
+  constructor(restaurantId){
+    this.restaurantId = restaurantId
+    this.watchInterval = setInterval(this.watch.bind(this), 1000);
+  }
+
+  addComment(params){
+    Api.post(`/restaurants/${this.restaurantId}/comments`,{
       comment: params
-    }).then( response => {
-      return response.json()
     }).then( comment => {
       AppDispatcher.dispatch({
         actionType: Constants.ADD_COMMENT,
@@ -16,22 +19,26 @@ class Actions {
     })
   }
 
-  static setComments(params){
+  setComments(params){
     AppDispatcher.dispatch({
       actionType: Constants.SET_COMMENTS,
       comment: params
     });
   }
 
-  static upvoteComment(comment){
-    Api.put(`/restaurants/1/comments/${comment.id}/upvote`).then( response => {
-      return response.json()
-    }).then( comment => {
+  upvoteComment(comment){
+    Api.put(`/restaurants/${this.restaurantId}/comments/${comment.id}/upvote`).then( comment => {
       AppDispatcher.dispatch({
         actionType: Constants.UPVOTE_COMMENT,
         comment: comment
       });
     })
+  }
+
+  watch(){
+    Api.get(`/restaurants/${this.restaurantId}/comments`).then(comments => {
+      this.setComments(comments)
+    });
   }
 }
 
