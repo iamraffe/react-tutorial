@@ -1,3 +1,6 @@
+import React from 'react';
+import _ from 'lodash';
+
 class CommentForm extends React.Component{
   constructor(props){
     super()

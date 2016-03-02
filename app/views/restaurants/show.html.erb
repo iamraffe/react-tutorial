@@ -10,7 +10,7 @@
       <header>
         <h1>Comments</h1>
       </header>
-      <%= react_component("CommentSection", restaurantId: @restaurant.id, comments: raw( render(template: "comments/index.json.jbuilder") ) ) %>
+      <div id="commentSection"></div>
     </section>
   </section>
 </article>

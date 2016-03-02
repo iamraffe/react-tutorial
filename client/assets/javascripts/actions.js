@@ -1,6 +1,7 @@
 import AppDispatcher from './app_dispatcher';
 import Constants from './constants';
 import Api from './api';
+import _ from 'lodash';
 
 class Actions {
   constructor(restaurantId){
