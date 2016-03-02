@@ -2,6 +2,11 @@ import CommentForm from "../components/comment_form";
 import CommentList from "../components/comment_list";
 
 class Comment extends React.Component {
+  constructor(){
+    super()
+    this.state = { isReplying: false }
+  }
+
   static get propTypes() {
     return{
       id: React.PropTypes.number,
@@ -11,12 +16,22 @@ class Comment extends React.Component {
     }
   }
 
+  onToggleReply(){
+    this.setState({isReplying: !this.state.isReplying})
+  }
+
   render(){
-    return  <li>
-              <p>{this.props.body}</p>
-              <p className="right"> By: {this.props.author}</p>
+    const replyText = this.state.isReplying ? "Hide" : "Reply"
+    return  <li className="comment row collapse">
+              <blockquote>
+                {this.props.body}
+                <cite> 
+                  by: {this.props.author}
+                </cite>
+              </blockquote>
               <p> Rank: {this.props.rank}</p>
-              <CommentForm parent_id={this.props.id} />
+              <button className="button tiny hollow" onClick={this.onToggleReply.bind(this)}>{replyText}</button>
+              <CommentForm parent_id={this.props.id} isReplying={this.state.isReplying} />
               <ul>
                 <CommentList parent_id={this.props.id} />
               </ul>
