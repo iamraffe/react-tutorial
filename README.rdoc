@@ -1,28 +1,13 @@
-== README
+This is a React + Rails Tutorial. There's also a lot about getting Rails to play nice with ES6 which I found to be a challenge when trying on my own.
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+The idea is to follow the chapters of this tutorial: 
+http://shop.oreilly.com/product/0636920044307.do
 
-Things you may want to cover:
+In this Hands-on with React and Ruby on Rails training course, expert author Jonathan Lebensold will teach you how to build a web application from setup to deployment with React and Ruby on Rails. This course is designed for users that already have experience with web development and scripting languages.
 
-* Ruby version
+You will start by learning about the Flux application pattern, including how to integrate Flux into React components, introduce ES6 with Ruby on Rails, and mitigate Flux JavaScript to Flux ES6. From there, Jonathan will teach you how to finalize the Flux architecture. This video tutorial also covers complex UI interactions in Flux and configuring NodeJS and Rails. Finally, you will learn about automated testing, including how to use code coverage, write model specs, and test Flux with RSpec.
 
-* System dependencies
+Once you have completed this computer based training course, you will be capable of designing and building your own web applications with React and Ruby on Rails. Working files are included, allowing you to follow along with the author throughout the lessons.
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+If you have any questions, contact me:
+r.ramirez@weareinhouse.com
