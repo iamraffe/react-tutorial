@@ -17,11 +17,12 @@ function toUnderscore(str){
 }
 
 function renderToString(component, props, callback) {
-  var component = require('./components/' + toUnderscore(component));
+  var component = require('./components/' + toUnderscore(component)).default;
   callback(React.renderToString(React.createElement(component, props)));
 }
 
 app.post('/', function( req, res) {
+  return res.end(req.body.props.toString());
   renderToString(req.body.component, req.body.props, function(str) {
     res.end(str);
   });

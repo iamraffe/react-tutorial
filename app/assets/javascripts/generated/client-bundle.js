@@ -35208,7 +35208,9 @@
 	  return CommentSection;
 	}(_react2.default.Component);
 
-	window.CommentSection = CommentSection;
+	// window.CommentSection = CommentSection;
+
+
 	exports.default = CommentSection;
 
 /***/ },

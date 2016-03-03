@@ -15,6 +15,7 @@
     "babel-runtime": "*",
     "babel-preset-es2015": "*",
     "babel-preset-react": "*",
+    "babel-preset-stage-0": "*",
     "body-parser": "*",
     "es5-shim": "*",
     "imports-loader": "*",

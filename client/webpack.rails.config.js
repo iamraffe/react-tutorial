@@ -6,8 +6,8 @@ config.output = {
 };
 
 config.module.loaders.push(
-  {test: /\.jsx$/, exclude: /node_modules/, loader: 'babel-loader', query: {presets: ['es2015', 'react']}},
-  {test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader', query: {presets: ['es2015', 'react']}}
+  {test: /\.jsx$/, exclude: /node_modules/, loader: 'babel-loader', query: {presets: ["stage-0", 'es2015', 'react']}},
+  {test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader', query: {presets: ["stage-0", 'es2015', 'react']}}
 );
 
 module.exports = config;

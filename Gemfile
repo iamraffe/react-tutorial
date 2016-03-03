@@ -22,6 +22,7 @@ gem 'rails_admin'
 gem 'foundation-rails'
 gem "foreman"
 gem "puma"
+gem "httparty"
 
 group :production do
   gem 'pg'

@@ -36,5 +36,5 @@ class CommentSection extends React.Component{
   }
 }
 
-window.CommentSection = CommentSection;
+// window.CommentSection = CommentSection;
 export default CommentSection;
