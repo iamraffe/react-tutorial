@@ -5,7 +5,7 @@ import React from 'react';
 class Comment extends React.Component {
   constructor(){
     super()
-    this.state = { isReplying: false }
+    this.state = { isReplying: false, isEditing: false, body: "", author: "" }
   }
   static get contextTypes(){
     return{
@@ -23,7 +23,10 @@ class Comment extends React.Component {
   }
 
   onToggleReply(){
-    this.setState({isReplying: !this.state.isReplying})
+    this.setState({isReplying: !this.state.isReplying, isEditing: false, body: "", author: ""})
+    // this.setState({isReplying: !this.state.isReplying})
+    // this.state.body = ""
+    // this.state.author = ""
   }
 
   onCommentSubmitted(event){
@@ -34,22 +37,46 @@ class Comment extends React.Component {
     this.context.actions.upvoteComment(this.props)
   }
 
+  onToggleEdit(){
+    this.setState({isEditing: !this.state.isEditing, isReplying: false, body: this.props.body, author: this.props.author})
+    // this.state.body = this.props.body
+    // this.state.author = this.props.author
+  }
+
+  onCommentEdited(event){
+    this.setState({isEditing: false})
+  }
+
+  // getBody(){
+  //   this.state.body
+  // }
+
+  // getAuthor(){
+  //   this.state.author
+  // }
+
   render(){
     const replyText = this.state.isReplying ? "Hide" : "Reply"
+    const editIcon = this.state.isEditing ? "times" : "pencil"
     return  <li className="comment row collapse">
               <blockquote>
                 <span className="label warning float-right hollow">{this.props.rank}</span>
                 {this.props.body}
-                <cite> 
+                <cite>
                   by: {this.props.author}
                 </cite>
               </blockquote>
               <button className="button tiny hollow" onClick={this.onToggleReply.bind(this)}>{replyText}</button>
               <button className="button success tiny hollow" onClick={this.onUpvote.bind(this)}>+1</button>
-              <CommentForm 
+              <button className="button warning tiny hollow" onClick={this.onToggleEdit.bind(this)}><span className={"fa fa-" + editIcon}></span></button>
+              <CommentForm
                 parent_id={this.props.id}
                 isReplying={this.state.isReplying}
-                onCommentSubmitted={this.onCommentSubmitted.bind(this)} />
+                isEditing={this.state.isEditing}
+                body={this.state.body}
+                author={this.state.author}
+                onCommentSubmitted={this.onCommentSubmitted.bind(this)}
+                onCommentEdited={this.onCommentEdited.bind(this)} />
               <ul>
                 <CommentList parent_id={this.props.id} />
               </ul>

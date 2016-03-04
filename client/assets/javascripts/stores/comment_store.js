@@ -1,6 +1,6 @@
 import AppDispatcher from '../app_dispatcher';
 import Constants from '../constants';
-import EventEmitter from 'events';
+import { EventEmitter } from 'events';
 import _ from 'lodash';
 
 class CommentStore extends EventEmitter {
@@ -23,6 +23,11 @@ class CommentStore extends EventEmitter {
           this.upvote(payload.comment)
           this.emitChange()
           break;
+        case Constants.EDIT_COMMENT:
+          // console.log(payload.comment)
+          this.editComment(payload.comment)
+          this.emitChange()
+          break;
         default:
           // NO-OP
       }
@@ -42,6 +47,10 @@ class CommentStore extends EventEmitter {
 
   upvote(comment){
     this._comments[comment.id].rank++
+  }
+
+  editComment(comment){
+    this._comments[comment.id] = comment
   }
 
   comments(parentId) {

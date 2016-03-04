@@ -19743,14 +19743,17 @@
 
 	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Comment).call(this));
 
-	    _this.state = { isReplying: false };
+	    _this.state = { isReplying: false, isEditing: false, body: "", author: "" };
 	    return _this;
 	  }
 
 	  _createClass(Comment, [{
 	    key: "onToggleReply",
 	    value: function onToggleReply() {
-	      this.setState({ isReplying: !this.state.isReplying });
+	      this.setState({ isReplying: !this.state.isReplying, isEditing: false, body: "", author: "" });
+	      // this.setState({isReplying: !this.state.isReplying})
+	      // this.state.body = ""
+	      // this.state.author = ""
 	    }
 	  }, {
 	    key: "onCommentSubmitted",
@@ -19763,9 +19766,31 @@
 	      this.context.actions.upvoteComment(this.props);
 	    }
 	  }, {
+	    key: "onToggleEdit",
+	    value: function onToggleEdit() {
+	      this.setState({ isEditing: !this.state.isEditing, isReplying: false, body: this.props.body, author: this.props.author });
+	      // this.state.body = this.props.body
+	      // this.state.author = this.props.author
+	    }
+	  }, {
+	    key: "onCommentEdited",
+	    value: function onCommentEdited(event) {
+	      this.setState({ isEditing: false });
+	    }
+
+	    // getBody(){
+	    //   this.state.body
+	    // }
+
+	    // getAuthor(){
+	    //   this.state.author
+	    // }
+
+	  }, {
 	    key: "render",
 	    value: function render() {
 	      var replyText = this.state.isReplying ? "Hide" : "Reply";
+	      var editIcon = this.state.isEditing ? "times" : "pencil";
 	      return _react2.default.createElement(
 	        "li",
 	        { className: "comment row collapse" },
@@ -19795,10 +19820,19 @@
 	          { className: "button success tiny hollow", onClick: this.onUpvote.bind(this) },
 	          "+1"
 	        ),
+	        _react2.default.createElement(
+	          "button",
+	          { className: "button warning tiny hollow", onClick: this.onToggleEdit.bind(this) },
+	          _react2.default.createElement("span", { className: "fa fa-" + editIcon })
+	        ),
 	        _react2.default.createElement(_comment_form2.default, {
 	          parent_id: this.props.id,
 	          isReplying: this.state.isReplying,
-	          onCommentSubmitted: this.onCommentSubmitted.bind(this) }),
+	          isEditing: this.state.isEditing,
+	          body: this.state.body,
+	          author: this.state.author,
+	          onCommentSubmitted: this.onCommentSubmitted.bind(this),
+	          onCommentEdited: this.onCommentEdited.bind(this) }),
 	        _react2.default.createElement(
 	          "ul",
 	          null,
@@ -19864,10 +19898,14 @@
 	  function CommentForm(props) {
 	    _classCallCheck(this, CommentForm);
 
+	    // console.log(props)
+	    // this.defaultReplyState = { body: "", author: ""}
+
 	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(CommentForm).call(this));
 
-	    _this.defaultState = { body: '', author: '' };
+	    _this.defaultState = { body: props.body, author: props.author, hasEditedBody: false, hasEditedAuthor: false };
 	    _this.state = _this.defaultState;
+	    // this.hasEdited = false
 	    return _this;
 	  }
 
@@ -19876,6 +19914,7 @@
 	    value: function onFieldChange(event) {
 	      var prop = {};
 	      prop[event.target.name] = event.target.value;
+	      event.target.name === "body" ? prop["hasEditedBody"] = true : prop["hasEditedAuthor"] = true;
 	      this.setState(prop);
 	    }
 	  }, {
@@ -19889,30 +19928,50 @@
 	      }
 	    }
 	  }, {
+	    key: 'editComment',
+	    value: function editComment(event) {
+	      event.preventDefault();
+	      this.state.hasEditedAuthor ? this.state.author = this.state.author : this.state.author = this.props.author;
+	      this.state.hasEditedBody ? this.state.body = this.state.body : this.state.body = this.props.body;
+	      console.log(this.state);
+	      this.context.actions.editComment(_lodash2.default.merge(this.state, { id: this.props.parent_id }));
+	      this.setState(this.defaultState);
+	      if (this.props.onCommentEdited) {
+	        this.props.onCommentEdited();
+	      }
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
+	      var authorText = !this.state.hasEditedAuthor && this.props.isEditing ? this.props.author : this.state.author;
+	      var bodyText = !this.state.hasEditedBody && this.props.isEditing ? this.props.body : this.state.body;
 	      return _react2.default.createElement(
 	        'div',
 	        null,
 	        _react2.default.createElement(
 	          'form',
-	          { className: this.props.isReplying ? '' : 'hide' },
+	          { className: this.props.isReplying || this.props.isEditing ? '' : 'hide' },
 	          _react2.default.createElement(
 	            'label',
 	            null,
 	            'Author'
 	          ),
-	          _react2.default.createElement('input', { type: 'text', name: 'author', onChange: this.onFieldChange.bind(this), value: this.state.author }),
+	          _react2.default.createElement('input', { type: 'text', name: 'author', onChange: this.onFieldChange.bind(this), value: authorText, placeholder: authorText }),
 	          _react2.default.createElement(
 	            'label',
 	            null,
 	            'Comment'
 	          ),
-	          _react2.default.createElement('textarea', { name: 'body', onChange: this.onFieldChange.bind(this), value: this.state.body }),
+	          _react2.default.createElement('textarea', { name: 'body', onChange: this.onFieldChange.bind(this), value: bodyText, placeholder: bodyText }),
 	          _react2.default.createElement(
 	            'button',
-	            { className: 'button hollow', onClick: this.submitComment.bind(this), type: 'submit' },
+	            { className: this.props.isReplying ? 'button hollow' : 'button hollow hide', onClick: this.submitComment.bind(this), type: 'submit' },
 	            'Submit'
+	          ),
+	          _react2.default.createElement(
+	            'button',
+	            { className: this.props.isEditing ? 'button hollow' : 'button hollow hide', onClick: this.editComment.bind(this), type: 'submit' },
+	            'Update'
 	          )
 	        )
 	      );
@@ -19929,7 +19988,9 @@
 	    get: function get() {
 	      return {
 	        onCommentSubmitted: _react2.default.PropTypes.func,
+	        onCommentEdited: _react2.default.PropTypes.func,
 	        isReplying: _react2.default.PropTypes.bool,
+	        isEditing: _react2.default.PropTypes.bool,
 	        parent_id: _react2.default.PropTypes.number
 	      };
 	    }
@@ -35284,6 +35345,18 @@
 	      });
 	    }
 	  }, {
+	    key: 'editComment',
+	    value: function editComment(comment) {
+	      _api2.default.put('/restaurants/' + this.restaurantId + '/comments/' + comment.id, {
+	        comment: comment
+	      }).then(function (comment) {
+	        _app_dispatcher2.default.dispatch({
+	          actionType: _constants2.default.EDIT_COMMENT,
+	          comment: comment
+	        });
+	      });
+	    }
+	  }, {
 	    key: 'watch',
 	    value: function watch() {
 	      var _this = this;
@@ -35636,7 +35709,8 @@
 	  CHANGE_EVENT: 'change',
 	  ADD_COMMENT: 'comments.add',
 	  SET_COMMENTS: 'comments.set_comments',
-	  UPVOTE_COMMENT: 'comments.upvote'
+	  UPVOTE_COMMENT: 'comments.upvote',
+	  EDIT_COMMENT: 'comments.edit'
 	};
 
 	exports.default = Constants;
@@ -35731,8 +35805,6 @@
 
 	var _events = __webpack_require__(175);
 
-	var _events2 = _interopRequireDefault(_events);
-
 	var _lodash = __webpack_require__(163);
 
 	var _lodash2 = _interopRequireDefault(_lodash);
@@ -35770,6 +35842,11 @@
 	          _this.upvote(payload.comment);
 	          _this.emitChange();
 	          break;
+	        case _constants2.default.EDIT_COMMENT:
+	          // console.log(payload.comment)
+	          _this.editComment(payload.comment);
+	          _this.emitChange();
+	          break;
 	        default:
 	        // NO-OP
 	      }
@@ -35798,6 +35875,11 @@
 	      this._comments[comment.id].rank++;
 	    }
 	  }, {
+	    key: 'editComment',
+	    value: function editComment(comment) {
+	      this._comments[comment.id] = comment;
+	    }
+	  }, {
 	    key: 'comments',
 	    value: function comments(parentId) {
 	      return _lodash2.default.chain(this._comments.filter(function (c) {
@@ -35822,7 +35904,7 @@
 	  }]);
 
 	  return CommentStore;
-	}(_events2.default);
+	}(_events.EventEmitter);
 
 	exports.default = CommentStore;
 

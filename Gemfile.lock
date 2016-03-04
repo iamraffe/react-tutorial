@@ -195,6 +195,7 @@ PLATFORMS
 DEPENDENCIES
   ancestry
   byebug
+  font-awesome-rails
   foreman
   foundation-rails
   httparty

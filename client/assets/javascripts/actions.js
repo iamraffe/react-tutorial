@@ -36,6 +36,17 @@ class Actions {
     })
   }
 
+  editComment(comment){
+    Api.put(`/restaurants/${this.restaurantId}/comments/${comment.id}`, {
+      comment: comment
+    }).then( comment => {
+      AppDispatcher.dispatch({
+        actionType: Constants.EDIT_COMMENT,
+        comment: comment
+      });
+    })
+  }
+
   watch(){
     Api.get(`/restaurants/${this.restaurantId}/comments`).then(comments => {
       this.setComments(comments)

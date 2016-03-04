@@ -23,6 +23,7 @@ gem 'foundation-rails'
 gem "foreman"
 gem "puma"
 gem "httparty"
+gem "font-awesome-rails"
 
 group :production do
   gem 'pg'

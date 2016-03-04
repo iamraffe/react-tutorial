@@ -22,7 +22,7 @@ function renderToString(component, props, callback) {
 }
 
 app.post('/', function( req, res) {
-  return res.end(req.body.props.toString());
+  // return res.end(req.body.props);
   renderToString(req.body.component, req.body.props, function(str) {
     res.end(str);
   });

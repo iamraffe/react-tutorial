@@ -10,9 +10,13 @@
       <header>
         <h1>Comments</h1>
       </header>
-      <%= isomorphic("CommentSection", 'cs', "{restaurantId:  #{@restaurant.id},
+      <% if(params[:client]) %>
+        <%= client("CommentSection", 'cs', "{restaurantId:  #{@restaurant.id},
                         comments: #{raw(render(template: 'comments/index.json.jbuilder'))}}") %>
-
+      <% else %>
+        <%= client("CommentSection", 'cs', "{restaurantId:  #{@restaurant.id},
+                        comments: #{raw(render(template: 'comments/index.json.jbuilder'))}}") %>
+      <% end %>
 
     </section>
   </section>
