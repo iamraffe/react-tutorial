@@ -47,6 +47,15 @@ class Actions {
     })
   }
 
+  deleteComment(comment){
+    Api.delete(`/restaurants/${this.restaurantId}/comments/${comment.id}`).then( comment => {
+      AppDispatcher.dispatch({
+        actionType: Constants.DELETE_COMMENT,
+        comment: comment
+      });
+    })
+  }
+
   watch(){
     Api.get(`/restaurants/${this.restaurantId}/comments`).then(comments => {
       this.setComments(comments)

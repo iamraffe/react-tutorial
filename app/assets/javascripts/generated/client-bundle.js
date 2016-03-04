@@ -19751,9 +19751,6 @@
 	    key: "onToggleReply",
 	    value: function onToggleReply() {
 	      this.setState({ isReplying: !this.state.isReplying, isEditing: false, body: "", author: "" });
-	      // this.setState({isReplying: !this.state.isReplying})
-	      // this.state.body = ""
-	      // this.state.author = ""
 	    }
 	  }, {
 	    key: "onCommentSubmitted",
@@ -19766,26 +19763,20 @@
 	      this.context.actions.upvoteComment(this.props);
 	    }
 	  }, {
+	    key: "onCommentDeleted",
+	    value: function onCommentDeleted() {
+	      this.context.actions.deleteComment(this.props);
+	    }
+	  }, {
 	    key: "onToggleEdit",
 	    value: function onToggleEdit() {
 	      this.setState({ isEditing: !this.state.isEditing, isReplying: false, body: this.props.body, author: this.props.author });
-	      // this.state.body = this.props.body
-	      // this.state.author = this.props.author
 	    }
 	  }, {
 	    key: "onCommentEdited",
 	    value: function onCommentEdited(event) {
 	      this.setState({ isEditing: false });
 	    }
-
-	    // getBody(){
-	    //   this.state.body
-	    // }
-
-	    // getAuthor(){
-	    //   this.state.author
-	    // }
-
 	  }, {
 	    key: "render",
 	    value: function render() {
@@ -19824,6 +19815,11 @@
 	          "button",
 	          { className: "button warning tiny hollow", onClick: this.onToggleEdit.bind(this) },
 	          _react2.default.createElement("span", { className: "fa fa-" + editIcon })
+	        ),
+	        _react2.default.createElement(
+	          "button",
+	          { className: "button danger tiny hollow", onClick: this.onCommentDeleted.bind(this) },
+	          "Delete comment"
 	        ),
 	        _react2.default.createElement(_comment_form2.default, {
 	          parent_id: this.props.id,
@@ -19898,14 +19894,10 @@
 	  function CommentForm(props) {
 	    _classCallCheck(this, CommentForm);
 
-	    // console.log(props)
-	    // this.defaultReplyState = { body: "", author: ""}
-
 	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(CommentForm).call(this));
 
 	    _this.defaultState = { body: props.body, author: props.author, hasEditedBody: false, hasEditedAuthor: false };
 	    _this.state = _this.defaultState;
-	    // this.hasEdited = false
 	    return _this;
 	  }
 
@@ -35196,7 +35188,7 @@
 
 	var _actions2 = _interopRequireDefault(_actions);
 
-	var _comment_store = __webpack_require__(174);
+	var _comment_store = __webpack_require__(168);
 
 	var _comment_store2 = _interopRequireDefault(_comment_store);
 
@@ -35286,15 +35278,15 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _app_dispatcher = __webpack_require__(168);
+	var _app_dispatcher = __webpack_require__(169);
 
 	var _app_dispatcher2 = _interopRequireDefault(_app_dispatcher);
 
-	var _constants = __webpack_require__(172);
+	var _constants = __webpack_require__(173);
 
 	var _constants2 = _interopRequireDefault(_constants);
 
-	var _api = __webpack_require__(173);
+	var _api = __webpack_require__(175);
 
 	var _api2 = _interopRequireDefault(_api);
 
@@ -35357,6 +35349,16 @@
 	      });
 	    }
 	  }, {
+	    key: 'deleteComment',
+	    value: function deleteComment(comment) {
+	      _api2.default.delete('/restaurants/' + this.restaurantId + '/comments/' + comment.id).then(function (comment) {
+	        _app_dispatcher2.default.dispatch({
+	          actionType: _constants2.default.DELETE_COMMENT,
+	          comment: comment
+	        });
+	      });
+	    }
+	  }, {
 	    key: 'watch',
 	    value: function watch() {
 	      var _this = this;
@@ -35382,14 +35384,149 @@
 	  value: true
 	});
 
-	var _flux = __webpack_require__(169);
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _app_dispatcher = __webpack_require__(169);
+
+	var _app_dispatcher2 = _interopRequireDefault(_app_dispatcher);
+
+	var _constants = __webpack_require__(173);
+
+	var _constants2 = _interopRequireDefault(_constants);
+
+	var _events = __webpack_require__(174);
+
+	var _lodash = __webpack_require__(163);
+
+	var _lodash2 = _interopRequireDefault(_lodash);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var CommentStore = function (_EventEmitter) {
+	  _inherits(CommentStore, _EventEmitter);
+
+	  function CommentStore() {
+	    _classCallCheck(this, CommentStore);
+
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(CommentStore).call(this));
+
+	    _this._comments = [];
+
+	    _app_dispatcher2.default.register(function (payload) {
+	      switch (payload.actionType) {
+	        case _constants2.default.ADD_COMMENT:
+	          _this.addComment(payload.comment);
+	          _this.emitChange();
+	          break;
+	        case _constants2.default.SET_COMMENTS:
+	          _this.setComments(payload.comment);
+	          _this.emitChange();
+	          break;
+	        case _constants2.default.UPVOTE_COMMENT:
+	          // console.log(payload.comment)
+	          _this.upvote(payload.comment);
+	          _this.emitChange();
+	          break;
+	        case _constants2.default.EDIT_COMMENT:
+	          // console.log(payload.comment)
+	          _this.editComment(payload.comment);
+	          _this.emitChange();
+	          break;
+	        case _constants2.default.DELETE_COMMENT:
+	          // console.log(payload.comment)
+	          _this.deleteComment(payload.comment);
+	          _this.emitChange();
+	          break;
+	        default:
+	        // NO-OP
+	      }
+	    });
+	    return _this;
+	  }
+
+	  _createClass(CommentStore, [{
+	    key: 'addComment',
+	    value: function addComment(comment) {
+	      this._comments[comment.id || this._comments.length] = comment;
+	      // console.log(this._comments)
+	    }
+	  }, {
+	    key: 'setComments',
+	    value: function setComments(comments) {
+	      var _this2 = this;
+
+	      comments.forEach(function (comment) {
+	        _this2.addComment(comment);
+	      });
+	    }
+	  }, {
+	    key: 'upvote',
+	    value: function upvote(comment) {
+	      this._comments[comment.id].rank++;
+	    }
+	  }, {
+	    key: 'editComment',
+	    value: function editComment(comment) {
+	      this._comments[comment.id] = comment;
+	    }
+	  }, {
+	    key: 'deleteComment',
+	    value: function deleteComment(comment) {
+	      delete this._comments[comment.id];
+	    }
+	  }, {
+	    key: 'comments',
+	    value: function comments(parentId) {
+	      return _lodash2.default.chain(this._comments.filter(function (c) {
+	        return c && c.parent_id === parentId;
+	      })).sortBy('rank').reverse().value();
+	    }
+	  }, {
+	    key: 'addChangeListener',
+	    value: function addChangeListener(callback) {
+	      this.on(_constants2.default.CHANGE_EVENT, callback);
+	    }
+	  }, {
+	    key: 'removeChangeListener',
+	    value: function removeChangeListener(callback) {
+	      this.removeListener(_constants2.default.CHANGE_EVENT, callback);
+	    }
+	  }, {
+	    key: 'emitChange',
+	    value: function emitChange() {
+	      this.emit(_constants2.default.CHANGE_EVENT);
+	    }
+	  }]);
+
+	  return CommentStore;
+	}(_events.EventEmitter);
+
+	exports.default = CommentStore;
+
+/***/ },
+/* 169 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _flux = __webpack_require__(170);
 
 	var AppDispatcher = new _flux.Dispatcher();
 
 	exports.default = AppDispatcher;
 
 /***/ },
-/* 169 */
+/* 170 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -35401,11 +35538,11 @@
 	 * of patent rights can be found in the PATENTS file in the same directory.
 	 */
 
-	module.exports.Dispatcher = __webpack_require__(170);
+	module.exports.Dispatcher = __webpack_require__(171);
 
 
 /***/ },
-/* 170 */
+/* 171 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -35427,7 +35564,7 @@
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-	var invariant = __webpack_require__(171);
+	var invariant = __webpack_require__(172);
 
 	var _prefix = 'ID_';
 
@@ -35642,7 +35779,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
 
 /***/ },
-/* 171 */
+/* 172 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -35697,7 +35834,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
 
 /***/ },
-/* 172 */
+/* 173 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -35710,206 +35847,14 @@
 	  ADD_COMMENT: 'comments.add',
 	  SET_COMMENTS: 'comments.set_comments',
 	  UPVOTE_COMMENT: 'comments.upvote',
-	  EDIT_COMMENT: 'comments.edit'
+	  EDIT_COMMENT: 'comments.edit',
+	  DELETE_COMMENT: 'comments.delete'
 	};
 
 	exports.default = Constants;
 
 /***/ },
-/* 173 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	var Api = function () {
-	  function Api() {
-	    _classCallCheck(this, Api);
-	  }
-
-	  _createClass(Api, null, [{
-	    key: 'token',
-	    value: function token() {
-	      var el = document.querySelector('meta[name="csrf-token"');
-	      return el ? el.getAttribute("content") : '';
-	    }
-	  }, {
-	    key: 'headers',
-	    value: function headers() {
-	      return {
-	        "Accept": "application/json",
-	        "Content-Type": "application/json",
-	        "X-CSRF-Token": this.token(),
-	        "X-Requested-With": "XMLHttpRequest"
-	      };
-	    }
-	  }, {
-	    key: 'xhr',
-	    value: function xhr(route, params, verb) {
-	      return fetch(route + '.json', _.merge({
-	        method: verb,
-	        credentials: 'include',
-	        headers: this.headers()
-	      }, { body: JSON.stringify(params) })).then(function (response) {
-	        return response.json();
-	      });
-	    }
-	  }, {
-	    key: 'put',
-	    value: function put(route, params) {
-	      return this.xhr(route, params, 'put');
-	    }
-	  }, {
-	    key: 'post',
-	    value: function post(route, params) {
-	      return this.xhr(route, params, 'post');
-	    }
-	  }, {
-	    key: 'get',
-	    value: function get(route, params) {
-	      return this.xhr(route, params, 'get');
-	    }
-	  }]);
-
-	  return Api;
-	}();
-
-	exports.default = Api;
-
-/***/ },
 /* 174 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _app_dispatcher = __webpack_require__(168);
-
-	var _app_dispatcher2 = _interopRequireDefault(_app_dispatcher);
-
-	var _constants = __webpack_require__(172);
-
-	var _constants2 = _interopRequireDefault(_constants);
-
-	var _events = __webpack_require__(175);
-
-	var _lodash = __webpack_require__(163);
-
-	var _lodash2 = _interopRequireDefault(_lodash);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var CommentStore = function (_EventEmitter) {
-	  _inherits(CommentStore, _EventEmitter);
-
-	  function CommentStore() {
-	    _classCallCheck(this, CommentStore);
-
-	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(CommentStore).call(this));
-
-	    _this._comments = [];
-
-	    _app_dispatcher2.default.register(function (payload) {
-	      switch (payload.actionType) {
-	        case _constants2.default.ADD_COMMENT:
-	          _this.addComment(payload.comment);
-	          _this.emitChange();
-	          break;
-	        case _constants2.default.SET_COMMENTS:
-	          _this.setComments(payload.comment);
-	          _this.emitChange();
-	          break;
-	        case _constants2.default.UPVOTE_COMMENT:
-	          // console.log(payload.comment)
-	          _this.upvote(payload.comment);
-	          _this.emitChange();
-	          break;
-	        case _constants2.default.EDIT_COMMENT:
-	          // console.log(payload.comment)
-	          _this.editComment(payload.comment);
-	          _this.emitChange();
-	          break;
-	        default:
-	        // NO-OP
-	      }
-	    });
-	    return _this;
-	  }
-
-	  _createClass(CommentStore, [{
-	    key: 'addComment',
-	    value: function addComment(comment) {
-	      this._comments[comment.id || this._comments.length] = comment;
-	      // console.log(this._comments)
-	    }
-	  }, {
-	    key: 'setComments',
-	    value: function setComments(comments) {
-	      var _this2 = this;
-
-	      comments.forEach(function (comment) {
-	        _this2.addComment(comment);
-	      });
-	    }
-	  }, {
-	    key: 'upvote',
-	    value: function upvote(comment) {
-	      this._comments[comment.id].rank++;
-	    }
-	  }, {
-	    key: 'editComment',
-	    value: function editComment(comment) {
-	      this._comments[comment.id] = comment;
-	    }
-	  }, {
-	    key: 'comments',
-	    value: function comments(parentId) {
-	      return _lodash2.default.chain(this._comments.filter(function (c) {
-	        return c && c.parent_id === parentId;
-	      })).sortBy('rank').reverse().value();
-	    }
-	  }, {
-	    key: 'addChangeListener',
-	    value: function addChangeListener(callback) {
-	      this.on(_constants2.default.CHANGE_EVENT, callback);
-	    }
-	  }, {
-	    key: 'removeChangeListener',
-	    value: function removeChangeListener(callback) {
-	      this.removeListener(_constants2.default.CHANGE_EVENT, callback);
-	    }
-	  }, {
-	    key: 'emitChange',
-	    value: function emitChange() {
-	      this.emit(_constants2.default.CHANGE_EVENT);
-	    }
-	  }]);
-
-	  return CommentStore;
-	}(_events.EventEmitter);
-
-	exports.default = CommentStore;
-
-/***/ },
-/* 175 */
 /***/ function(module, exports) {
 
 	// Copyright Joyent, Inc. and other Node contributors.
@@ -36211,6 +36156,79 @@
 	  return arg === void 0;
 	}
 
+
+/***/ },
+/* 175 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	var Api = function () {
+	  function Api() {
+	    _classCallCheck(this, Api);
+	  }
+
+	  _createClass(Api, null, [{
+	    key: 'token',
+	    value: function token() {
+	      var el = document.querySelector('meta[name="csrf-token"');
+	      return el ? el.getAttribute("content") : '';
+	    }
+	  }, {
+	    key: 'headers',
+	    value: function headers() {
+	      return {
+	        "Accept": "application/json",
+	        "Content-Type": "application/json",
+	        "X-CSRF-Token": this.token(),
+	        "X-Requested-With": "XMLHttpRequest"
+	      };
+	    }
+	  }, {
+	    key: 'xhr',
+	    value: function xhr(route, params, verb) {
+	      return fetch(route + '.json', _.merge({
+	        method: verb,
+	        credentials: 'include',
+	        headers: this.headers()
+	      }, { body: JSON.stringify(params) })).then(function (response) {
+	        return response.json();
+	      });
+	    }
+	  }, {
+	    key: 'put',
+	    value: function put(route, params) {
+	      return this.xhr(route, params, 'put');
+	    }
+	  }, {
+	    key: 'post',
+	    value: function post(route, params) {
+	      return this.xhr(route, params, 'post');
+	    }
+	  }, {
+	    key: 'get',
+	    value: function get(route, params) {
+	      return this.xhr(route, params, 'get');
+	    }
+	  }, {
+	    key: 'delete',
+	    value: function _delete(route, params) {
+	      return this.xhr(route, params, 'delete');
+	    }
+	  }]);
+
+	  return Api;
+	}();
+
+	exports.default = Api;
 
 /***/ }
 /******/ ]);

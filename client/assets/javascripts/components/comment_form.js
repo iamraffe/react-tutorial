@@ -4,11 +4,8 @@ import _ from 'lodash';
 class CommentForm extends React.Component{
   constructor(props){
     super()
-    // console.log(props)
-    // this.defaultReplyState = { body: "", author: ""}
     this.defaultState = { body: props.body, author: props.author, hasEditedBody: false, hasEditedAuthor: false}
     this.state = this.defaultState
-    // this.hasEdited = false
   }
 
   static get contextTypes(){

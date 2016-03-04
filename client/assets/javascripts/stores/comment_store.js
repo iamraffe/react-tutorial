@@ -28,6 +28,11 @@ class CommentStore extends EventEmitter {
           this.editComment(payload.comment)
           this.emitChange()
           break;
+        case Constants.DELETE_COMMENT:
+          // console.log(payload.comment)
+          this.deleteComment(payload.comment)
+          this.emitChange()
+          break;
         default:
           // NO-OP
       }
@@ -51,6 +56,10 @@ class CommentStore extends EventEmitter {
 
   editComment(comment){
     this._comments[comment.id] = comment
+  }
+
+  deleteComment(comment){
+    delete this._comments[comment.id]
   }
 
   comments(parentId) {

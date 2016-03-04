@@ -34,6 +34,10 @@ class Api{
   static get(route, params){
     return this.xhr(route, params, 'get')
   }
+
+  static delete(route, params){
+    return this.xhr(route, params, 'delete')
+  }
 }
 
 export default Api

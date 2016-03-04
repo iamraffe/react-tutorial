@@ -13,6 +13,12 @@ class CommentsController < ApplicationController
     @comment
   end
 
+  def destroy
+    @comment = Comment.find(params[:id])
+    Comment.destroy(params[:id])
+    @comment
+  end
+
   def upvote
     Comment.upvote(params[:comment_id])
     @comment = Comment.find(params[:comment_id])

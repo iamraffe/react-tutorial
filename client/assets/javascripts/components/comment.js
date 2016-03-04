@@ -24,9 +24,6 @@ class Comment extends React.Component {
 
   onToggleReply(){
     this.setState({isReplying: !this.state.isReplying, isEditing: false, body: "", author: ""})
-    // this.setState({isReplying: !this.state.isReplying})
-    // this.state.body = ""
-    // this.state.author = ""
   }
 
   onCommentSubmitted(event){
@@ -37,23 +34,17 @@ class Comment extends React.Component {
     this.context.actions.upvoteComment(this.props)
   }
 
+  onCommentDeleted(){
+    this.context.actions.deleteComment(this.props)
+  }
+
   onToggleEdit(){
     this.setState({isEditing: !this.state.isEditing, isReplying: false, body: this.props.body, author: this.props.author})
-    // this.state.body = this.props.body
-    // this.state.author = this.props.author
   }
 
   onCommentEdited(event){
     this.setState({isEditing: false})
   }
-
-  // getBody(){
-  //   this.state.body
-  // }
-
-  // getAuthor(){
-  //   this.state.author
-  // }
 
   render(){
     const replyText = this.state.isReplying ? "Hide" : "Reply"
@@ -69,6 +60,7 @@ class Comment extends React.Component {
               <button className="button tiny hollow" onClick={this.onToggleReply.bind(this)}>{replyText}</button>
               <button className="button success tiny hollow" onClick={this.onUpvote.bind(this)}>+1</button>
               <button className="button warning tiny hollow" onClick={this.onToggleEdit.bind(this)}><span className={"fa fa-" + editIcon}></span></button>
+              <button className="button danger tiny hollow" onClick={this.onCommentDeleted.bind(this)}>Delete comment</button>
               <CommentForm
                 parent_id={this.props.id}
                 isReplying={this.state.isReplying}
