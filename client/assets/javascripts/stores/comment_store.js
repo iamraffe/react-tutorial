@@ -40,8 +40,8 @@ class CommentStore extends EventEmitter {
   }
 
   addComment(comment) {
-    this._comments[comment.id || this._comments.length] = comment;
-    // console.log(this._comments)
+    comment = comment.id ? comment : _.merge(comment, {id: (this._comments.length+1)})
+    this._comments[comment.id] = comment;
   }
 
   setComments(comments){
@@ -63,10 +63,7 @@ class CommentStore extends EventEmitter {
   }
 
   comments(parentId) {
-    return _.chain(this._comments.filter(c => {return c && c.parent_id === parentId}))
-            .sortBy('rank')
-            .reverse()
-            .value()
+    return this._comments
   }
 
   addChangeListener(callback) {

@@ -26,7 +26,8 @@
     "flux": "*",
     "axios": "*",
     "express": "*",
-    "webpack": "*"
+    "webpack": "*",
+    "react-modal": "*"
   },
   "devDependencies": {
 

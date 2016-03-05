@@ -3,10 +3,14 @@ import CommentList from "../components/comment_list";
 import React from 'react';
 
 class Comment extends React.Component {
-  constructor(){
+  constructor(props){
     super()
-    this.state = { isReplying: false, isEditing: false, body: "", author: "" }
+    this.defaultState = {id: props.id, isEditing: false, body: props.body, author: props.author}
+    this.state = this.defaultState
+    // console.log(props)
+    // console.log(this.state)
   }
+
   static get contextTypes(){
     return{
       actions: React.PropTypes.object.isRequired
@@ -22,31 +26,93 @@ class Comment extends React.Component {
     }
   }
 
-  onToggleReply(){
-    this.setState({isReplying: !this.state.isReplying, isEditing: false, body: "", author: ""})
-  }
+  // onToggleReply(){
+  //   this.setState({isReplying: !this.state.isReplying, isEditing: false, body: "", author: ""})
+  // }
 
-  onCommentSubmitted(event){
-    this.setState({isReplying: false})
-  }
+  // onCommentSubmitted(event){
+  //   this.setState({isReplying: false})
+  // }
 
-  onUpvote(){
-    this.context.actions.upvoteComment(this.props)
-  }
+  // onUpvote(){
+  //   this.context.actions.upvoteComment(this.props)
+  // }
 
   onCommentDeleted(){
     this.context.actions.deleteComment(this.props)
   }
 
-  onToggleEdit(){
-    this.setState({isEditing: !this.state.isEditing, isReplying: false, body: this.props.body, author: this.props.author})
-  }
+  // onToggleEdit(){
+  //   this.setState({isEditing: !this.state.isEditing, isReplying: false, body: this.props.body, author: this.props.author})
+  // }
 
   onCommentEdited(event){
     this.setState({isEditing: false})
+    // console.log(this.state)
+    this.context.actions.editComment(this.state)
+  }
+
+  onToggleEdit(event){
+    this.setState({isEditing: true});
+  }
+
+  onFieldChange(event){
+    // console.log(this.state)
+    let prop = {}
+    prop[event.target.name] = event.target.value
+    this.setState(prop)
+    // this.setState({body: event.target.value})
+    //  if(event.keyCode === 13) {
+    //    this.onCommentEdited(event)
+    //  } else if(event.keyCode === 27) {
+    //    this.setState({isEditing: false});
+    //  }
+  }
+
+  onKeyDown(event){
+     if(event.keyCode === 13) {
+       this.onCommentEdited(event)
+     } else if(event.keyCode === 27) {
+       this.setState(this.defaultState);
+     }
+  }
+
+  _renderElement(){
+    if(this.state.isEditing) {
+      return(
+        <li className="comment row collapse">
+          <article>
+          <input
+            type="text"
+            name="body"
+            onChange={this.onFieldChange.bind(this)}
+            onKeyDown={this.onKeyDown.bind(this)}
+            onBlur={this.onCommentEdited.bind(this)}
+            defaultValue={this.props.body}
+            ref="textField" />
+          </article>
+        </li>
+      );
+    }
+    else {
+      return(
+        <li className="comment row collapse">
+          <article>
+            <button className="button alert tiny hollow float-right" onClick={this.onCommentDeleted.bind(this)}><span className="fa fa-times"></span></button>
+            <p onDoubleClick={this.onToggleEdit.bind(this)}>
+              {this.props.body}
+            </p>
+          </article>
+        </li>
+      );
+    }
   }
 
   render(){
+    return this._renderElement();
+  }
+
+/*  render(){
     const replyText = this.state.isReplying ? "Hide" : "Reply"
     const editIcon = this.state.isEditing ? "times" : "pencil"
     return  <li className="comment row collapse">
@@ -74,6 +140,7 @@ class Comment extends React.Component {
               </ul>
             </li>;
   }
+*/
 }
 
 export default Comment

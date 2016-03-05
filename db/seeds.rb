@@ -4,4 +4,4 @@ r = Restaurant.create! name: "Los Pollos Hermanos", description: "This is a desc
 
 Comment.destroy_all
 
-Comment.create! restaurant_id: r.id, author: "Jown", body: "This is the body", rank: 2
+Comment.create! restaurant_id: r.id, body: "This is an item body"
